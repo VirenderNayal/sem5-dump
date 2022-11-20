@@ -7,7 +7,7 @@
 
 %%
 
-S: DO WS ID EQU E1 SEP E1 SEP E1 NEW END WS DO {printf("Accepted!"); flag=1;}
+S: DO WS ID EQU E1 SEP E1 SEP E1 WS END WS DO {printf("Accepted!"); flag=1;}
 E1: ID | NUM ;
 
 %%
