@@ -1,47 +1,36 @@
-/*Virender 06 Sept 2022*/
-
 %{
-    #include<stdio.h>
-    #include<ctype.h>
+    #include <stdio.h>
+    int flag=0;
+    int yylex();
+    int yyerror();
 %}
 
-%token NUMBER
+%token NUM
 %left '+' '-'
 %left '*' '/'
-%right UMINUS
+%left '(' ')'
 
 %%
-lines : lines expr '\n' { printf("%g\n", $2); }
-      | lines '\n'
-      | /* e*/
-      ;
-expr    : expr '+' expr { $$ = $1 + $3; }
-     | expr '-' expr { $$ = $1 - $3; }
-     | expr '*' expr { $$ = $1 * $3; }
-     | expr '/' expr { $$ = $1 / $3; }
-     | '(' expr ')' { $$ = $2; }  
-     | '-' expr %prec UMINUS { $$ = - $2; }
-     | NUMBER 
-     ;
+
+S: E{printf("Result = %d\n", $$); flag=0; return 0;};
+E: E '+' E {$$=$1+$3;}
+|E '-' E {$$=$1-$3;}
+|E '*' E {$$=$1*$3;}
+|E '/' E {$$=$1/$3;}
+|'(' E ')' {$$=$2;}
+|NUM {$$=$1;}
+
 %%
 
-yyerror() {printf("Hi");}
-
-yylex(){
-    int c;
-    while((c = getchar()) == ' ');
-    if((c == '.') || (isdigit(c))){
-        ungetc(c, stdin);
-        scanf("%lf", &yylval);
-        printf("%d, %d, %d", yylval, c, NUMBER);
-        return NUMBER;
-    }
-    return c;
+int main() {
+    yyparse();
+    if(flag==0)
+    printf("Valid Expression \n");
+    return 1;
 }
 
-int main()
-{
-    printf("\n%d",yylex());
-    return 0;
+yyerror(const char *msg) {
+    printf(msg);
+    printf("Invalid Expression \n");
+    flag=1;
 }
-

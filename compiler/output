@@ -1,1 +1,0 @@
-	#	include	 		"	stdio.h	"		\n	int	 	main	(		)		\n		{		\n		 		 		 		 	int	 	a	 		=		 	10	,		 	b	,		 	c	;		\n		 		 		 		 	a	 		=		 	b	 		*		 	c	;		\n		\n		 		 		 		 	return	 	0	;		\n		}	
